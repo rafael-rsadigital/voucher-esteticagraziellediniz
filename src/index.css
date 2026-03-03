@@ -95,3 +95,8 @@
     font-family: 'Lato', sans-serif;
   }
 }
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}

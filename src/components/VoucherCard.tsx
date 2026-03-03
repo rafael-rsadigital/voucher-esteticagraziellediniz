@@ -64,8 +64,9 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           href={`https://wa.me/5512987056599?text=${encodeURIComponent(`Oi! Eu recebi um voucher para realizar uma limpeza de pele e gostaria de agendar. O código do voucher é ${code}`)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="mb-4 inline-flex items-center justify-center rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+          className="group relative mb-4 inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
         >
+          <span className="absolute inset-0 -translate-x-full animate-[shine_3s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           Agendar
         </a>
 
