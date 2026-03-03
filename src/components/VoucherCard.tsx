@@ -29,7 +29,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         />
 
         {/* Title */}
-        <h1 className="mb-1 font-cursive text-4xl text-primary">Essência Feminina</h1>
+        <h1 className="mb-1 font-cursive text-4xl text-primary">Mês da Mulher</h1>
 
         {/* Decorative line */}
         <div className="my-4 flex items-center gap-3">
