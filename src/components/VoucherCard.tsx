@@ -55,9 +55,22 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         <div className="flex-1" />
 
         {/* Motivational */}
-        <p className="mb-6 text-center font-serif text-xs italic text-muted-foreground">
+        <p className="mb-2 text-center font-serif text-xs italic text-muted-foreground">
           "Um momento de renovação, cuidado e autoestima."
         </p>
+
+        {/* Agendar button */}
+        <a
+          href={`https://wa.me/5512987056599?text=${encodeURIComponent(`Oi! Eu recebi um voucher para realizar uma limpeza de pele e gostaria de agendar. O código do voucher é ${code}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-4 inline-flex items-center justify-center rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+        >
+          Agendar
+        </a>
+
+        {/* Spacer */}
+        <div className="flex-1" />
 
         {/* Footer */}
         <div className="w-full space-y-2 text-center">
@@ -75,7 +88,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           </div>
           <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
             <MapPin className="h-3 w-3" />
-            <span>São José dos Campos - SP</span>
+            <span>R. Paulo Setúbal, 179 - Sala 11 - Jardim São Dimas, São José dos Campos</span>
           </div>
         </div>
       </div>
