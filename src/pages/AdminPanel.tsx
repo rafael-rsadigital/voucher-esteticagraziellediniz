@@ -62,7 +62,7 @@ const AdminPanel = () => {
 
     setLoading(true);
     const code = generateCode();
-    const expiresAt = addDays(new Date(), 60).toISOString();
+    const expiresAt = new Date("2025-04-30T23:59:59").toISOString();
 
     const { data, error } = await supabase
       .from("vouchers")
