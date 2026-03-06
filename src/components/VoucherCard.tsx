@@ -7,10 +7,11 @@ interface VoucherCardProps {
   clientName: string;
   code: string;
   expiresAt: string;
+  serviceName?: string;
 }
 
 const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
-  ({ clientName, code, expiresAt }, ref) => {
+  ({ clientName, code, expiresAt, serviceName = "Experiência Completa de Limpeza de Pele" }, ref) => {
     return (
       <div
         ref={ref}
@@ -41,7 +42,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         {/* Description */}
         <p className="mb-6 text-center font-serif text-sm leading-relaxed text-foreground/80">
           Este voucher dá direito a uma{" "}
-          <span className="font-semibold text-primary">Experiência Completa de Limpeza de Pele</span>{" "}
+          <span className="font-semibold text-primary">{serviceName}</span>{" "}
           com duração de 1h30 a 2h.
         </p>
 
