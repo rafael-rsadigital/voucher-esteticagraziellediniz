@@ -39,6 +39,7 @@ export type Database = {
           created_at: string
           expires_at: string
           id: string
+          service_name: string
         }
         Insert: {
           client_name: string
@@ -46,6 +47,7 @@ export type Database = {
           created_at?: string
           expires_at: string
           id?: string
+          service_name?: string
         }
         Update: {
           client_name?: string
@@ -53,6 +55,7 @@ export type Database = {
           created_at?: string
           expires_at?: string
           id?: string
+          service_name?: string
         }
         Relationships: []
       }

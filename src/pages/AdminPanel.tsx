@@ -15,6 +15,7 @@ interface Voucher {
   id: string;
   code: string;
   client_name: string;
+  service_name: string;
   created_at: string;
   expires_at: string;
 }
@@ -30,6 +31,7 @@ const generateCode = (): string => {
 
 const AdminPanel = () => {
   const [clientName, setClientName] = useState("");
+  const [serviceName, setServiceName] = useState("Experiência Completa de Limpeza de Pele");
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastCreated, setLastCreated] = useState<Voucher | null>(null);
@@ -66,7 +68,7 @@ const AdminPanel = () => {
 
     const { data, error } = await supabase
       .from("vouchers")
-      .insert({ code, client_name: clientName.trim(), expires_at: expiresAt })
+      .insert({ code, client_name: clientName.trim(), service_name: serviceName.trim(), expires_at: expiresAt })
       .select()
       .single();
 
@@ -85,7 +87,7 @@ const AdminPanel = () => {
 
   const copyToWhatsApp = (voucher: Voucher) => {
     const url = getVoucherUrl(voucher.code);
-    const msg = `✨ Olá ${voucher.client_name}! ✨\n\nVocê recebeu um voucher exclusivo da Estética Grazielle Diniz!\n\n🎁 Experiência Completa de Limpeza de Pele\n📅 Válido até: ${format(new Date(voucher.expires_at), "dd/MM/yyyy")}\n\nAcesse seu voucher: ${url}\n\nAguardamos você! 💚`;
+    const msg = `✨ Olá ${voucher.client_name}! ✨\n\nVocê recebeu um voucher exclusivo da Estética Grazielle Diniz!\n\n🎁 ${voucher.service_name}\n📅 Válido até: ${format(new Date(voucher.expires_at), "dd/MM/yyyy")}\n\nAcesse seu voucher: ${url}\n\nAguardamos você! 💚`;
     navigator.clipboard.writeText(msg);
     toast.success("Mensagem copiada para o WhatsApp!");
   };
@@ -124,6 +126,15 @@ const AdminPanel = () => {
                 placeholder="Ex: Maria Silva"
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="service">Serviço</Label>
+              <Input
+                id="service"
+                placeholder="Ex: Experiência Completa de Limpeza de Pele"
+                value={serviceName}
+                onChange={(e) => setServiceName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
               />
             </div>
