@@ -1,0 +1,1 @@
+ALTER TABLE public.vouchers ADD COLUMN service_name text NOT NULL DEFAULT 'Experiência Completa de Limpeza de Pele';
