@@ -8,10 +8,18 @@ interface VoucherCardProps {
   code: string;
   expiresAt: string;
   serviceName?: string;
+  voucherType?: string;
+  discountAmount?: number | null;
 }
 
 const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
-  ({ clientName, code, expiresAt, serviceName = "Experiência Completa de Limpeza de Pele" }, ref) => {
+  ({ clientName, code, expiresAt, serviceName = "Experiência Completa em Limpeza de Pele", voucherType = "presente", discountAmount }, ref) => {
+    const isDiscount = voucherType === "desconto";
+
+    const whatsappText = isDiscount
+      ? `Oi! Eu recebi um voucher de desconto de R$${discountAmount ?? 30},00 e gostaria de agendar. O código do voucher é ${code}`
+      : `Oi! Eu recebi um voucher para realizar ${serviceName} e gostaria de agendar. O código do voucher é ${code}`;
+
     return (
       <div
         ref={ref}
@@ -30,7 +38,9 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         />
 
         {/* Title */}
-        <h1 className="mb-1 font-cursive text-4xl text-primary">Mês da Mulher</h1>
+        <h1 className="mb-1 font-cursive text-4xl text-primary">
+          {isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
+        </h1>
 
         {/* Decorative line */}
         <div className="my-4 flex items-center gap-3">
@@ -41,9 +51,19 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
 
         {/* Description */}
         <p className="mb-6 text-center font-serif text-sm leading-relaxed text-foreground/80">
-          Este voucher dá direito a uma{" "}
-          <span className="font-semibold text-primary">{serviceName}</span>{" "}
-          com duração de 1h30 a 2h.
+          {isDiscount ? (
+            <>
+              Você ganhou{" "}
+              <span className="text-lg font-bold text-primary">R$ {discountAmount ?? 30},00</span>{" "}
+              de desconto no seu próximo procedimento.
+            </>
+          ) : (
+            <>
+              Este voucher dá direito a uma{" "}
+              <span className="font-semibold text-primary">{serviceName}</span>{" "}
+              com duração de 1h30 a 2h.
+            </>
+          )}
         </p>
 
         {/* Client name */}
@@ -57,12 +77,14 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
 
         {/* Motivational */}
         <p className="mb-2 text-center font-serif text-xs italic text-muted-foreground">
-          "Um momento de renovação, cuidado e autoestima."
+          {isDiscount
+            ? "Cuide-se, você merece!"
+            : "\"Um momento de renovação, cuidado e autoestima.\""}
         </p>
 
         {/* Agendar button */}
         <a
-          href={`https://wa.me/5512987056599?text=${encodeURIComponent(`Oi! Eu recebi um voucher para realizar uma limpeza de pele e gostaria de agendar. O código do voucher é ${code}`)}`}
+          href={`https://wa.me/5512987056599?text=${encodeURIComponent(whatsappText)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="group relative mb-4 inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
@@ -88,6 +110,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
               </span>
             </span>
           </div>
+          <p className="text-[10px] text-muted-foreground/70">Pessoal e intransferível</p>
           <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
             <MapPin className="h-3 w-3" />
             <span>R. Paulo Setúbal, 179 - Sala 11 - Jardim São Dimas, São José dos Campos</span>
