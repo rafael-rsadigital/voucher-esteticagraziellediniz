@@ -85,6 +85,8 @@ const VoucherPublic = () => {
         code={voucher.code}
         expiresAt={voucher.expires_at}
         serviceName={voucher.service_name}
+        voucherType={voucher.voucher_type}
+        discountAmount={voucher.discount_amount}
       />
       <Button onClick={handleSaveImage} disabled={saving} className="mt-6" size="lg">
         <Download className="mr-2 h-4 w-4" />
