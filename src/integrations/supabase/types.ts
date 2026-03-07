@@ -37,25 +37,31 @@ export type Database = {
           client_name: string
           code: string
           created_at: string
+          discount_amount: number | null
           expires_at: string
           id: string
           service_name: string
+          voucher_type: string
         }
         Insert: {
           client_name: string
           code: string
           created_at?: string
+          discount_amount?: number | null
           expires_at: string
           id?: string
           service_name?: string
+          voucher_type?: string
         }
         Update: {
           client_name?: string
           code?: string
           created_at?: string
+          discount_amount?: number | null
           expires_at?: string
           id?: string
           service_name?: string
+          voucher_type?: string
         }
         Relationships: []
       }
