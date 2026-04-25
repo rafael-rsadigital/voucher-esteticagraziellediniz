@@ -21,9 +21,12 @@ interface Voucher {
   expires_at: string;
   voucher_type: string;
   discount_amount: number | null;
+  title: string | null;
 }
 
 const SERVICES = ["Limpeza de Pele", "Drenagem Linfática"];
+const TITLE_SUGGESTIONS_PRESENTE = ["Mês da Mulher", "Aniversário", "Dia das Mães", "Natal"];
+const TITLE_SUGGESTIONS_DESCONTO = ["Voucher Desconto", "Oferta Especial", "Cliente Fiel"];
 
 const generateCode = (): string => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
