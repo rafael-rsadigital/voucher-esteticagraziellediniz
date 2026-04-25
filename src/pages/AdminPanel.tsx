@@ -21,9 +21,12 @@ interface Voucher {
   expires_at: string;
   voucher_type: string;
   discount_amount: number | null;
+  title: string | null;
 }
 
 const SERVICES = ["Limpeza de Pele", "Drenagem Linfática"];
+const TITLE_SUGGESTIONS_PRESENTE = ["Mês da Mulher", "Aniversário", "Dia das Mães", "Natal"];
+const TITLE_SUGGESTIONS_DESCONTO = ["Voucher Desconto", "Oferta Especial", "Cliente Fiel"];
 
 const generateCode = (): string => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -41,6 +44,7 @@ const AdminPanel = () => {
   const [selectedService, setSelectedService] = useState(SERVICES[0]);
   const [discountAmount, setDiscountAmount] = useState(30);
   const [editingDiscount, setEditingDiscount] = useState(false);
+  const [title, setTitle] = useState("Mês da Mulher");
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastCreated, setLastCreated] = useState<Voucher | null>(null);
@@ -68,6 +72,7 @@ const AdminPanel = () => {
     setVoucherType(type);
     setStep("form");
     setLastCreated(null);
+    setTitle(type === "desconto" ? "Voucher Desconto" : "Mês da Mulher");
   };
 
   const handleGenerate = async () => {
@@ -96,6 +101,7 @@ const AdminPanel = () => {
         expires_at: expiresAt,
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
+        title: title.trim() || null,
       })
       .select()
       .single();
@@ -201,6 +207,28 @@ const AdminPanel = () => {
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="title">Título do Voucher</Label>
+                  <Input
+                    id="title"
+                    placeholder="Ex: Mês da Mulher"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {(voucherType === "desconto" ? TITLE_SUGGESTIONS_DESCONTO : TITLE_SUGGESTIONS_PRESENTE).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setTitle(s)}
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {voucherType === "presente" && (

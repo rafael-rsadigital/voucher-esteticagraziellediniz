@@ -16,6 +16,7 @@ interface Voucher {
   expires_at: string;
   voucher_type: string;
   discount_amount: number | null;
+  title: string | null;
 }
 
 const VoucherPublic = () => {
@@ -87,6 +88,7 @@ const VoucherPublic = () => {
         serviceName={voucher.service_name}
         voucherType={voucher.voucher_type}
         discountAmount={voucher.discount_amount}
+        title={voucher.title}
       />
       <Button onClick={handleSaveImage} disabled={saving} className="mt-6" size="lg">
         <Download className="mr-2 h-4 w-4" />

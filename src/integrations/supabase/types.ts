@@ -41,6 +41,7 @@ export type Database = {
           expires_at: string
           id: string
           service_name: string
+          title: string | null
           voucher_type: string
         }
         Insert: {
@@ -51,6 +52,7 @@ export type Database = {
           expires_at: string
           id?: string
           service_name?: string
+          title?: string | null
           voucher_type?: string
         }
         Update: {
@@ -61,6 +63,7 @@ export type Database = {
           expires_at?: string
           id?: string
           service_name?: string
+          title?: string | null
           voucher_type?: string
         }
         Relationships: []

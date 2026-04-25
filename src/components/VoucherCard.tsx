@@ -10,10 +10,11 @@ interface VoucherCardProps {
   serviceName?: string;
   voucherType?: string;
   discountAmount?: number | null;
+  title?: string | null;
 }
 
 const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
-  ({ clientName, code, expiresAt, serviceName = "Experiência Completa em Limpeza de Pele", voucherType = "presente", discountAmount }, ref) => {
+  ({ clientName, code, expiresAt, serviceName = "Experiência Completa em Limpeza de Pele", voucherType = "presente", discountAmount, title }, ref) => {
     const isDiscount = voucherType === "desconto";
 
     const whatsappText = isDiscount
@@ -38,8 +39,8 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         />
 
         {/* Title */}
-        <h1 className="mb-1 font-cursive text-4xl text-primary">
-          {isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
+        <h1 className="mb-1 text-center font-cursive text-4xl text-primary">
+          {title?.trim() ? title : isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
         </h1>
 
         {/* Decorative line */}
