@@ -39,8 +39,8 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         />
 
         {/* Title */}
-        <h1 className="mb-1 font-cursive text-4xl text-primary">
-          {isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
+        <h1 className="mb-1 text-center font-cursive text-4xl text-primary">
+          {title?.trim() ? title : isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
         </h1>
 
         {/* Decorative line */}
