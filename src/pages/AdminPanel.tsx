@@ -72,6 +72,7 @@ const AdminPanel = () => {
     setVoucherType(type);
     setStep("form");
     setLastCreated(null);
+    setTitle(type === "desconto" ? "Voucher Desconto" : "Mês da Mulher");
   };
 
   const handleGenerate = async () => {
