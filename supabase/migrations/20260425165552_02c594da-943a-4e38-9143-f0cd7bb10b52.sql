@@ -1,0 +1,1 @@
+ALTER TABLE public.vouchers ADD COLUMN title TEXT;
