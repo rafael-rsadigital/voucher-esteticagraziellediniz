@@ -209,6 +209,28 @@ const AdminPanel = () => {
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="title">Título do Voucher</Label>
+                  <Input
+                    id="title"
+                    placeholder="Ex: Mês da Mulher"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {(voucherType === "desconto" ? TITLE_SUGGESTIONS_DESCONTO : TITLE_SUGGESTIONS_PRESENTE).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setTitle(s)}
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {voucherType === "presente" && (
                   <div className="space-y-2">
                     <Label>Serviço</Label>
