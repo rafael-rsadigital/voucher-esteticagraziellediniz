@@ -101,6 +101,7 @@ const AdminPanel = () => {
         expires_at: expiresAt,
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
+        title: title.trim() || null,
       })
       .select()
       .single();
