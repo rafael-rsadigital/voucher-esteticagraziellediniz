@@ -16,6 +16,7 @@ interface Voucher {
   expires_at: string;
   voucher_type: string;
   discount_amount: number | null;
+  title: string | null;
 }
 
 const VoucherPublic = () => {
