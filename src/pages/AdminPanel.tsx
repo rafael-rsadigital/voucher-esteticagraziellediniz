@@ -44,6 +44,7 @@ const AdminPanel = () => {
   const [selectedService, setSelectedService] = useState(SERVICES[0]);
   const [discountAmount, setDiscountAmount] = useState(30);
   const [editingDiscount, setEditingDiscount] = useState(false);
+  const [title, setTitle] = useState("Mês da Mulher");
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastCreated, setLastCreated] = useState<Voucher | null>(null);
