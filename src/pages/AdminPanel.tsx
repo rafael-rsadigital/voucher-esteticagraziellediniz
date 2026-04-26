@@ -103,7 +103,7 @@ const AdminPanel = () => {
         code,
         client_name: clientName.trim(),
         service_name: serviceName,
-        expires_at: expiresAt,
+        expires_at: expiresAtIso,
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
         title: title.trim() || null,
