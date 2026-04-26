@@ -7,10 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
-import { Copy, LogOut, Plus, Link as LinkIcon, Gift, Percent, ArrowLeft, Pencil } from "lucide-react";
+import { Copy, LogOut, Plus, Link as LinkIcon, Gift, Percent, ArrowLeft, Pencil, CalendarIcon } from "lucide-react";
 import { format, addDays } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 interface Voucher {
   id: string;
@@ -45,6 +48,7 @@ const AdminPanel = () => {
   const [discountAmount, setDiscountAmount] = useState(30);
   const [editingDiscount, setEditingDiscount] = useState(false);
   const [title, setTitle] = useState("Mês da Mulher");
+  const [expiresAt, setExpiresAt] = useState<Date>(new Date("2025-04-30T23:59:59"));
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastCreated, setLastCreated] = useState<Voucher | null>(null);
@@ -73,6 +77,7 @@ const AdminPanel = () => {
     setStep("form");
     setLastCreated(null);
     setTitle(type === "desconto" ? "Voucher Desconto" : "Mês da Mulher");
+    setExpiresAt(type === "desconto" ? addDays(new Date(), 30) : new Date("2025-04-30T23:59:59"));
   };
 
   const handleGenerate = async () => {
@@ -84,9 +89,9 @@ const AdminPanel = () => {
     setLoading(true);
     const code = generateCode();
 
-    const expiresAt = voucherType === "desconto"
-      ? addDays(new Date(), 30).toISOString()
-      : new Date("2025-04-30T23:59:59").toISOString();
+    const expiresAtIso = new Date(
+      expiresAt.getFullYear(), expiresAt.getMonth(), expiresAt.getDate(), 23, 59, 59
+    ).toISOString();
 
     const serviceName = voucherType === "presente"
       ? `Experiência Completa em ${selectedService}`
@@ -98,7 +103,7 @@ const AdminPanel = () => {
         code,
         client_name: clientName.trim(),
         service_name: serviceName,
-        expires_at: expiresAt,
+        expires_at: expiresAtIso,
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
         title: title.trim() || null,
@@ -278,11 +283,47 @@ const AdminPanel = () => {
                         </div>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Validade: 30 dias a partir de hoje
-                    </p>
                   </div>
                 )}
+
+                <div className="space-y-2">
+                  <Label>Validade</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-full justify-start text-left font-normal", !expiresAt && "text-muted-foreground")}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {expiresAt ? format(expiresAt, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }) : "Selecione uma data"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={expiresAt}
+                        onSelect={(d) => d && setExpiresAt(d)}
+                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                        initialFocus
+                        locale={ptBR}
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[7, 15, 30, 60].map((d) => (
+                      <button
+                        key={d}
+                        type="button"
+                        onClick={() => setExpiresAt(addDays(new Date(), d))}
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        +{d} dias
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
 
                 <Button onClick={handleGenerate} disabled={loading} className="w-full">
                   <Plus className="mr-1 h-4 w-4" />
