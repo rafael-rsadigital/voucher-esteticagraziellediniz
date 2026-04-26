@@ -89,9 +89,9 @@ const AdminPanel = () => {
     setLoading(true);
     const code = generateCode();
 
-    const expiresAt = voucherType === "desconto"
-      ? addDays(new Date(), 30).toISOString()
-      : new Date("2025-04-30T23:59:59").toISOString();
+    const expiresAtIso = new Date(
+      expiresAt.getFullYear(), expiresAt.getMonth(), expiresAt.getDate(), 23, 59, 59
+    ).toISOString();
 
     const serviceName = voucherType === "presente"
       ? `Experiência Completa em ${selectedService}`
