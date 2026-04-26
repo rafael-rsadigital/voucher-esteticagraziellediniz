@@ -283,11 +283,47 @@ const AdminPanel = () => {
                         </div>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Validade: 30 dias a partir de hoje
-                    </p>
                   </div>
                 )}
+
+                <div className="space-y-2">
+                  <Label>Validade</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-full justify-start text-left font-normal", !expiresAt && "text-muted-foreground")}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {expiresAt ? format(expiresAt, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }) : "Selecione uma data"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={expiresAt}
+                        onSelect={(d) => d && setExpiresAt(d)}
+                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                        initialFocus
+                        locale={ptBR}
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[7, 15, 30, 60].map((d) => (
+                      <button
+                        key={d}
+                        type="button"
+                        onClick={() => setExpiresAt(addDays(new Date(), d))}
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        +{d} dias
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
 
                 <Button onClick={handleGenerate} disabled={loading} className="w-full">
                   <Plus className="mr-1 h-4 w-4" />
