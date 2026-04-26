@@ -77,6 +77,7 @@ const AdminPanel = () => {
     setStep("form");
     setLastCreated(null);
     setTitle(type === "desconto" ? "Voucher Desconto" : "Mês da Mulher");
+    setExpiresAt(type === "desconto" ? addDays(new Date(), 30) : new Date("2025-04-30T23:59:59"));
   };
 
   const handleGenerate = async () => {
