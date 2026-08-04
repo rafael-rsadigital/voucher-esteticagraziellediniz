@@ -45,13 +45,43 @@ const VoucherPublic = () => {
     setSaving(true);
     try {
       const node = cardRef.current;
-      const dataUrl = await toPng(node, {
+
+      // Garante que fontes e imagens estejam carregadas antes de renderizar
+      if (document.fonts?.ready) await document.fonts.ready;
+      await Promise.all(
+        Array.from(node.querySelectorAll("img")).map(
+          (img) =>
+            img.complete && img.naturalWidth > 0
+              ? Promise.resolve()
+              : new Promise<void>((resolve) => {
+                  img.onload = () => resolve();
+                  img.onerror = () => resolve();
+                })
+        )
+      );
+
+      const width = node.offsetWidth;
+      const height = node.offsetHeight;
+
+      const options = {
         cacheBust: true,
         pixelRatio: 3,
         backgroundColor: "#ffffff",
-      });
-      const width = node.offsetWidth;
-      const height = node.offsetHeight;
+        width,
+        height,
+      };
+
+      // Primeiras chamadas podem sair em branco (fontes/imagens): repetimos
+      let dataUrl = "";
+      for (let i = 0; i < 3; i++) {
+        dataUrl = await toPng(node, options);
+        await new Promise((r) => setTimeout(r, 120));
+      }
+
+      if (!dataUrl || dataUrl.length < 5000) {
+        throw new Error("Falha ao renderizar o voucher");
+      }
+
       const pdf = new jsPDF({
         orientation: height >= width ? "portrait" : "landscape",
         unit: "px",
@@ -65,6 +95,7 @@ const VoucherPublic = () => {
     }
     setSaving(false);
   };
+
 
 
   if (notFound) {
