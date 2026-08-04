@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { MapPin } from "lucide-react";
+import { MapPin, Link as LinkIcon } from "lucide-react";
 
 interface VoucherCardProps {
   clientName: string;
