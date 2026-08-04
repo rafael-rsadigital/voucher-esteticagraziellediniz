@@ -98,10 +98,24 @@ const VoucherPublic = () => {
         discountAmount={voucher.discount_amount}
         title={voucher.title}
       />
-      <Button onClick={handleSaveImage} disabled={saving} className="mt-6" size="lg">
+      <Button onClick={handleSavePdf} disabled={saving} className="mt-6" size="lg">
         <Download className="mr-2 h-4 w-4" />
-        {saving ? "Salvando..." : "Salvar como Imagem"}
+        {saving ? "Salvando..." : "Salvar em PDF"}
       </Button>
+
+      <div className="mt-8 w-full max-w-[360px] overflow-hidden rounded-lg border border-primary/20 shadow-sm">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.910082057528!2d-46.23737162465684!3d-23.98249917851274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce010cfde03e69%3A0x21cbbc8570ea3184!2sGrazielle%20Diniz%20-%20Est%C3%A9tica%20e%20Depila%C3%A7%C3%A3o%20a%20Laser!5e1!3m2!1spt-BR!2sbr!4v1785867093060!5m2!1spt-BR!2sbr"
+          title="Localização - Grazielle Diniz Estética, Guarujá - SP"
+          className="h-64 w-full border-0"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      </div>
+      <p className="mt-2 max-w-[360px] text-center text-xs text-muted-foreground">
+        Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP, 11440-002
+      </p>
     </div>
   );
 };
