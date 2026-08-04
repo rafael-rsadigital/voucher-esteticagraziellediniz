@@ -26,6 +26,7 @@ const VoucherPublic = () => {
   const [voucher, setVoucher] = useState<Voucher | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [savingImg, setSavingImg] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
