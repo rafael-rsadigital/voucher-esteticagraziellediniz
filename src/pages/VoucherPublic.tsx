@@ -40,25 +40,32 @@ const VoucherPublic = () => {
       });
   }, [codigo]);
 
-  const handleSaveImage = async () => {
+  const handleSavePdf = async () => {
     if (!cardRef.current) return;
     setSaving(true);
     try {
-      const dataUrl = await toPng(cardRef.current, {
+      const node = cardRef.current;
+      const dataUrl = await toPng(node, {
         cacheBust: true,
         pixelRatio: 3,
         backgroundColor: "#ffffff",
       });
-      const link = document.createElement("a");
-      link.download = `voucher-${voucher?.code}.png`;
-      link.href = dataUrl;
-      link.click();
-      toast.success("Imagem salva!");
+      const width = node.offsetWidth;
+      const height = node.offsetHeight;
+      const pdf = new jsPDF({
+        orientation: height >= width ? "portrait" : "landscape",
+        unit: "px",
+        format: [width, height],
+      });
+      pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
+      pdf.save(`voucher-${voucher?.code}.pdf`);
+      toast.success("PDF salvo!");
     } catch {
-      toast.error("Erro ao salvar imagem");
+      toast.error("Erro ao salvar PDF");
     }
     setSaving(false);
   };
+
 
   if (notFound) {
     return (
