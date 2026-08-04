@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toPng } from "html-to-image";
+import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Image as ImageIcon } from "lucide-react";
 import VoucherCard from "@/components/VoucherCard";
 import { toast } from "sonner";
+
 
 interface Voucher {
   id: string;
