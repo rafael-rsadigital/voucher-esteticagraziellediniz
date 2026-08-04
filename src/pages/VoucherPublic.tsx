@@ -135,10 +135,16 @@ const VoucherPublic = () => {
         discountAmount={voucher.discount_amount}
         title={voucher.title}
       />
-      <Button onClick={handleSavePdf} disabled={saving} className="mt-6" size="lg">
-        <Download className="mr-2 h-4 w-4" />
-        {saving ? "Salvando..." : "Salvar em PDF"}
-      </Button>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <Button onClick={handleSavePdf} disabled={saving} size="lg">
+          <Download className="mr-2 h-4 w-4" />
+          {saving ? "Salvando..." : "Salvar em PDF"}
+        </Button>
+        <Button onClick={handleSaveImage} disabled={savingImg} size="lg" variant="outline">
+          <ImageIcon className="mr-2 h-4 w-4" />
+          {savingImg ? "Salvando..." : "Salvar imagem"}
+        </Button>
+      </div>
 
       <div className="mt-8 w-full max-w-[360px] overflow-hidden rounded-lg border border-primary/20 shadow-sm">
         <iframe
