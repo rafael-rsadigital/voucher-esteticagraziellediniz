@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { MapPin } from "lucide-react";
+import { MapPin, Link as LinkIcon } from "lucide-react";
 
 interface VoucherCardProps {
   clientName: string;
@@ -85,14 +85,30 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
 
         {/* Agendar button */}
         <a
-          href={`https://wa.me/5512987056599?text=${encodeURIComponent(whatsappText)}`}
+          href={`https://wa.me/5513991630136?text=${encodeURIComponent(whatsappText)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative mb-4 inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+          className="group relative mb-3 inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
         >
           <span className="absolute inset-0 -translate-x-full animate-[shine_3s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           Agendar
         </a>
+
+        {/* Conhecer Grazielle Diniz */}
+        <div className="mb-4 flex flex-col items-center">
+          <p className="mb-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+            Conhecer Grazielle Diniz
+          </p>
+          <a
+            href="https://esteticagraziellediniz.com/bio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 px-5 py-1.5 font-serif text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+          >
+            <LinkIcon className="h-3 w-3" />
+            esteticagraziellediniz.com/bio
+          </a>
+        </div>
 
         {/* Spacer */}
         <div className="flex-1" />
@@ -114,9 +130,10 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           <p className="text-[10px] text-muted-foreground/70">Pessoal e intransferível</p>
           <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
             <MapPin className="h-3 w-3" />
-            <span>R. Paulo Setúbal, 179 - Sala 11 - Jardim São Dimas, São José dos Campos</span>
+            <span>Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP, 11440-002</span>
           </div>
         </div>
+
       </div>
     );
   }
