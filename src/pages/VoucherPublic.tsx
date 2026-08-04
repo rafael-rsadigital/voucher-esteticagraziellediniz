@@ -41,54 +41,41 @@ const VoucherPublic = () => {
       });
   }, [codigo]);
 
+  const renderCanvas = async () => {
+    const node = cardRef.current!;
+    if (document.fonts?.ready) await document.fonts.ready;
+    await Promise.all(
+      Array.from(node.querySelectorAll("img")).map((img) =>
+        img.complete && img.naturalWidth > 0
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+            })
+      )
+    );
+    return html2canvas(node, {
+      scale: 3,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+      logging: false,
+    });
+  };
+
   const handleSavePdf = async () => {
     if (!cardRef.current) return;
     setSaving(true);
     try {
-      const node = cardRef.current;
-
-      // Garante que fontes e imagens estejam carregadas antes de renderizar
-      if (document.fonts?.ready) await document.fonts.ready;
-      await Promise.all(
-        Array.from(node.querySelectorAll("img")).map(
-          (img) =>
-            img.complete && img.naturalWidth > 0
-              ? Promise.resolve()
-              : new Promise<void>((resolve) => {
-                  img.onload = () => resolve();
-                  img.onerror = () => resolve();
-                })
-        )
-      );
-
-      const width = node.offsetWidth;
-      const height = node.offsetHeight;
-
-      const options = {
-        cacheBust: true,
-        pixelRatio: 3,
-        backgroundColor: "#ffffff",
-        width,
-        height,
-      };
-
-      // Primeiras chamadas podem sair em branco (fontes/imagens): repetimos
-      let dataUrl = "";
-      for (let i = 0; i < 3; i++) {
-        dataUrl = await toPng(node, options);
-        await new Promise((r) => setTimeout(r, 120));
-      }
-
-      if (!dataUrl || dataUrl.length < 5000) {
-        throw new Error("Falha ao renderizar o voucher");
-      }
-
+      const canvas = await renderCanvas();
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
+      const width = cardRef.current.offsetWidth;
+      const height = cardRef.current.offsetHeight;
       const pdf = new jsPDF({
         orientation: height >= width ? "portrait" : "landscape",
         unit: "px",
         format: [width, height],
       });
-      pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
+      pdf.addImage(dataUrl, "JPEG", 0, 0, width, height);
       pdf.save(`voucher-${voucher?.code}.pdf`);
       toast.success("PDF salvo!");
     } catch {
@@ -96,6 +83,23 @@ const VoucherPublic = () => {
     }
     setSaving(false);
   };
+
+  const handleSaveImage = async () => {
+    if (!cardRef.current) return;
+    setSavingImg(true);
+    try {
+      const canvas = await renderCanvas();
+      const link = document.createElement("a");
+      link.download = `voucher-${voucher?.code}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      toast.success("Imagem salva!");
+    } catch {
+      toast.error("Erro ao salvar imagem");
+    }
+    setSavingImg(false);
+  };
+
 
 
 
