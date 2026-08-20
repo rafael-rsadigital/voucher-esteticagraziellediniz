@@ -25,11 +25,24 @@ interface Voucher {
   voucher_type: string;
   discount_amount: number | null;
   title: string | null;
+  message: string | null;
+  highlight_message: string | null;
+  service_description: string | null;
 }
 
 const SERVICES = ["Limpeza de Pele", "Drenagem Linfática"];
 const TITLE_SUGGESTIONS_PRESENTE = ["Mês da Mulher", "Aniversário", "Dia das Mães", "Natal"];
 const TITLE_SUGGESTIONS_DESCONTO = ["Voucher Desconto", "Oferta Especial", "Cliente Fiel"];
+const MESSAGE_SUGGESTIONS = [
+  "Filha, esse é um pequeno gesto para lembrar o quanto você é especial para mim.",
+  "Um presente para lembrar que cuidar de você também é importante.",
+  "Você merece um momento só seu.",
+];
+const HIGHLIGHT_SUGGESTIONS = [
+  "Aproveite esse momento, você merece! ❤️",
+  "Com todo o meu carinho ❤️",
+  "Feito com amor para você",
+];
 
 const generateCode = (): string => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
