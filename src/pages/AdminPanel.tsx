@@ -446,6 +446,32 @@ const AdminPanel = () => {
                 </Button>
               </CardContent>
             </Card>
+
+            <Card className="mb-6 border-primary/20">
+              <CardHeader>
+                <CardTitle className="font-serif text-lg text-primary">Prévia</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-lg border border-primary/10 bg-muted/30 p-3">
+                  <VoucherCard
+                    clientName={clientName.trim() || "Nome da Cliente"}
+                    code="ABCD"
+                    expiresAt={expiresAt.toISOString()}
+                    serviceName={
+                      voucherType === "presente"
+                        ? `Experiência Completa em ${selectedService}`
+                        : "Desconto em procedimento"
+                    }
+                    voucherType={voucherType}
+                    discountAmount={voucherType === "desconto" ? discountAmount : null}
+                    title={title}
+                    message={message}
+                    highlightMessage={highlightMessage}
+                    serviceDescription={serviceDescription}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </>
         )}
 
