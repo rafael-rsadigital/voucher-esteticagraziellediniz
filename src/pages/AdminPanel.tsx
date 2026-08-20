@@ -255,6 +255,100 @@ const AdminPanel = () => {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="message">Mensagem (texto livre)</Label>
+                  <Textarea
+                    id="message"
+                    rows={3}
+                    placeholder="Ex: Filha, esse é um pequeno gesto para lembrar o quanto você é especial para mim."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {MESSAGE_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setMessage(s)}
+                        className="max-w-full truncate rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="highlight">Frase em destaque (cursiva)</Label>
+                  <Textarea
+                    id="highlight"
+                    rows={2}
+                    placeholder="Ex: Aproveite esse momento, você merece! ❤️"
+                    value={highlightMessage}
+                    onChange={(e) => setHighlightMessage(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {HIGHLIGHT_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setHighlightMessage(s)}
+                        className="max-w-full truncate rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="service-desc">Texto do serviço (texto livre)</Label>
+                  <Textarea
+                    id="service-desc"
+                    rows={3}
+                    placeholder={
+                      voucherType === "desconto"
+                        ? `Este voucher dá direito a R$ ${discountAmount},00 de desconto no seu próximo procedimento.`
+                        : `Este voucher dá direito a uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h.`
+                    }
+                    value={serviceDescription}
+                    onChange={(e) => setServiceDescription(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setServiceDescription(
+                          voucherType === "desconto"
+                            ? `Este voucher dá direito a R$ ${discountAmount},00 de desconto no seu próximo procedimento.`
+                            : `Este voucher dá direito a uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h.`
+                        )
+                      }
+                      className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                    >
+                      Usar texto padrão
+                    </button>
+                    {voucherType === "presente" && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setServiceDescription(
+                            `Este voucher dá direito a 2 sessões de uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h por sessão.`
+                          )
+                        }
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        2 sessões
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Se ficar vazio, será usado o texto padrão automaticamente.
+                  </p>
+                </div>
+
+
+
                 {voucherType === "presente" && (
                   <div className="space-y-2">
                     <Label>Serviço</Label>
