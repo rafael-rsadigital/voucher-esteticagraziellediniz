@@ -137,6 +137,9 @@ const VoucherPublic = () => {
         voucherType={voucher.voucher_type}
         discountAmount={voucher.discount_amount}
         title={voucher.title}
+        message={voucher.message}
+        highlightMessage={voucher.highlight_message}
+        serviceDescription={voucher.service_description}
       />
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Button onClick={handleSavePdf} disabled={saving} size="lg">
