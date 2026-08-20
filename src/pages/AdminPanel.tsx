@@ -61,6 +61,9 @@ const AdminPanel = () => {
   const [discountAmount, setDiscountAmount] = useState(30);
   const [editingDiscount, setEditingDiscount] = useState(false);
   const [title, setTitle] = useState("Mês da Mulher");
+  const [message, setMessage] = useState("");
+  const [highlightMessage, setHighlightMessage] = useState("");
+  const [serviceDescription, setServiceDescription] = useState("");
   const [expiresAt, setExpiresAt] = useState<Date>(new Date("2025-04-30T23:59:59"));
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
