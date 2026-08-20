@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import VoucherCard from "@/components/VoucherCard";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -25,11 +27,24 @@ interface Voucher {
   voucher_type: string;
   discount_amount: number | null;
   title: string | null;
+  message: string | null;
+  highlight_message: string | null;
+  service_description: string | null;
 }
 
 const SERVICES = ["Limpeza de Pele", "Drenagem Linfática"];
 const TITLE_SUGGESTIONS_PRESENTE = ["Mês da Mulher", "Aniversário", "Dia das Mães", "Natal"];
 const TITLE_SUGGESTIONS_DESCONTO = ["Voucher Desconto", "Oferta Especial", "Cliente Fiel"];
+const MESSAGE_SUGGESTIONS = [
+  "Filha, esse é um pequeno gesto para lembrar o quanto você é especial para mim.",
+  "Um presente para lembrar que cuidar de você também é importante.",
+  "Você merece um momento só seu.",
+];
+const HIGHLIGHT_SUGGESTIONS = [
+  "Aproveite esse momento, você merece! ❤️",
+  "Com todo o meu carinho ❤️",
+  "Feito com amor para você",
+];
 
 const generateCode = (): string => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -48,6 +63,9 @@ const AdminPanel = () => {
   const [discountAmount, setDiscountAmount] = useState(30);
   const [editingDiscount, setEditingDiscount] = useState(false);
   const [title, setTitle] = useState("Mês da Mulher");
+  const [message, setMessage] = useState("");
+  const [highlightMessage, setHighlightMessage] = useState("");
+  const [serviceDescription, setServiceDescription] = useState("");
   const [expiresAt, setExpiresAt] = useState<Date>(new Date("2025-04-30T23:59:59"));
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [loading, setLoading] = useState(false);
@@ -107,6 +125,9 @@ const AdminPanel = () => {
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
         title: title.trim() || null,
+        message: message.trim() || null,
+        highlight_message: highlightMessage.trim() || null,
+        service_description: serviceDescription.trim() || null,
       })
       .select()
       .single();
@@ -236,6 +257,100 @@ const AdminPanel = () => {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="message">Mensagem (texto livre)</Label>
+                  <Textarea
+                    id="message"
+                    rows={3}
+                    placeholder="Ex: Filha, esse é um pequeno gesto para lembrar o quanto você é especial para mim."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {MESSAGE_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setMessage(s)}
+                        className="max-w-full truncate rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="highlight">Frase em destaque (cursiva)</Label>
+                  <Textarea
+                    id="highlight"
+                    rows={2}
+                    placeholder="Ex: Aproveite esse momento, você merece! ❤️"
+                    value={highlightMessage}
+                    onChange={(e) => setHighlightMessage(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    {HIGHLIGHT_SUGGESTIONS.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setHighlightMessage(s)}
+                        className="max-w-full truncate rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="service-desc">Texto do serviço (texto livre)</Label>
+                  <Textarea
+                    id="service-desc"
+                    rows={3}
+                    placeholder={
+                      voucherType === "desconto"
+                        ? `Este voucher dá direito a R$ ${discountAmount},00 de desconto no seu próximo procedimento.`
+                        : `Este voucher dá direito a uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h.`
+                    }
+                    value={serviceDescription}
+                    onChange={(e) => setServiceDescription(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setServiceDescription(
+                          voucherType === "desconto"
+                            ? `Este voucher dá direito a R$ ${discountAmount},00 de desconto no seu próximo procedimento.`
+                            : `Este voucher dá direito a uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h.`
+                        )
+                      }
+                      className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                    >
+                      Usar texto padrão
+                    </button>
+                    {voucherType === "presente" && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setServiceDescription(
+                            `Este voucher dá direito a 2 sessões de uma Experiência Completa em ${selectedService}, com duração de 1h30 a 2h por sessão.`
+                          )
+                        }
+                        className="rounded-full border border-primary/20 bg-secondary/50 px-2.5 py-0.5 text-xs text-primary transition-colors hover:bg-secondary"
+                      >
+                        2 sessões
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Se ficar vazio, será usado o texto padrão automaticamente.
+                  </p>
+                </div>
+
+
+
                 {voucherType === "presente" && (
                   <div className="space-y-2">
                     <Label>Serviço</Label>
@@ -329,6 +444,32 @@ const AdminPanel = () => {
                   <Plus className="mr-1 h-4 w-4" />
                   {loading ? "Gerando..." : "Gerar Voucher"}
                 </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-6 border-primary/20">
+              <CardHeader>
+                <CardTitle className="font-serif text-lg text-primary">Prévia</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-lg border border-primary/10 bg-muted/30 p-3">
+                  <VoucherCard
+                    clientName={clientName.trim() || "Nome da Cliente"}
+                    code="ABCD"
+                    expiresAt={expiresAt.toISOString()}
+                    serviceName={
+                      voucherType === "presente"
+                        ? `Experiência Completa em ${selectedService}`
+                        : "Desconto em procedimento"
+                    }
+                    voucherType={voucherType}
+                    discountAmount={voucherType === "desconto" ? discountAmount : null}
+                    title={title}
+                    message={message}
+                    highlightMessage={highlightMessage}
+                    serviceDescription={serviceDescription}
+                  />
+                </div>
               </CardContent>
             </Card>
           </>

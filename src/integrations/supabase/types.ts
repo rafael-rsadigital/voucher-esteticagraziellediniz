@@ -39,7 +39,10 @@ export type Database = {
           created_at: string
           discount_amount: number | null
           expires_at: string
+          highlight_message: string | null
           id: string
+          message: string | null
+          service_description: string | null
           service_name: string
           title: string | null
           voucher_type: string
@@ -50,7 +53,10 @@ export type Database = {
           created_at?: string
           discount_amount?: number | null
           expires_at: string
+          highlight_message?: string | null
           id?: string
+          message?: string | null
+          service_description?: string | null
           service_name?: string
           title?: string | null
           voucher_type?: string
@@ -61,7 +67,10 @@ export type Database = {
           created_at?: string
           discount_amount?: number | null
           expires_at?: string
+          highlight_message?: string | null
           id?: string
+          message?: string | null
+          service_description?: string | null
           service_name?: string
           title?: string | null
           voucher_type?: string

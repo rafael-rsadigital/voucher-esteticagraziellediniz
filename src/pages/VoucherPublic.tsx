@@ -19,6 +19,9 @@ interface Voucher {
   voucher_type: string;
   discount_amount: number | null;
   title: string | null;
+  message: string | null;
+  highlight_message: string | null;
+  service_description: string | null;
 }
 
 const VoucherPublic = () => {
@@ -134,6 +137,9 @@ const VoucherPublic = () => {
         voucherType={voucher.voucher_type}
         discountAmount={voucher.discount_amount}
         title={voucher.title}
+        message={voucher.message}
+        highlightMessage={voucher.highlight_message}
+        serviceDescription={voucher.service_description}
       />
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Button onClick={handleSavePdf} disabled={saving} size="lg">
