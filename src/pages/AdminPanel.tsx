@@ -123,6 +123,9 @@ const AdminPanel = () => {
         voucher_type: voucherType,
         discount_amount: voucherType === "desconto" ? discountAmount : null,
         title: title.trim() || null,
+        message: message.trim() || null,
+        highlight_message: highlightMessage.trim() || null,
+        service_description: serviceDescription.trim() || null,
       })
       .select()
       .single();
