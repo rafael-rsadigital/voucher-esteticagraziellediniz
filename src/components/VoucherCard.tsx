@@ -11,20 +11,47 @@ interface VoucherCardProps {
   voucherType?: string;
   discountAmount?: number | null;
   title?: string | null;
+  message?: string | null;
+  highlightMessage?: string | null;
+  serviceDescription?: string | null;
 }
 
 const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
-  ({ clientName, code, expiresAt, serviceName = "Experiência Completa em Limpeza de Pele", voucherType = "presente", discountAmount, title }, ref) => {
+  (
+    {
+      clientName,
+      code,
+      expiresAt,
+      serviceName = "Experiência Completa em Limpeza de Pele",
+      voucherType = "presente",
+      discountAmount,
+      title,
+      message,
+      highlightMessage,
+      serviceDescription,
+    },
+    ref
+  ) => {
     const isDiscount = voucherType === "desconto";
 
     const whatsappText = isDiscount
       ? `Oi! Eu recebi um voucher de desconto de R$${discountAmount ?? 30},00 e gostaria de agendar. O código do voucher é ${code}`
       : `Oi! Eu recebi um voucher para realizar ${serviceName} e gostaria de agendar. O código do voucher é ${code}`;
 
+    const hasTitle = !!title?.trim();
+    const hasMessage = !!message?.trim();
+    const hasHighlight = !!highlightMessage?.trim();
+
+    const defaultServiceText = isDiscount
+      ? `Este voucher dá direito a R$ ${discountAmount ?? 30},00 de desconto no seu próximo procedimento.`
+      : `Este voucher dá direito a uma ${serviceName}, com duração de 1h30 a 2h.`;
+
+    const serviceText = serviceDescription?.trim() || defaultServiceText;
+
     return (
       <div
         ref={ref}
-        className="relative mx-auto flex w-full max-w-[360px] flex-col items-center bg-background px-8 py-10"
+        className="relative mx-auto flex w-full max-w-[360px] flex-col items-center bg-background px-8 py-9"
         style={{ aspectRatio: "9/16" }}
       >
         {/* Elegant border */}
@@ -35,13 +62,29 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         <img
           src="/logo-grazielle.jpg"
           alt="Estética Grazielle Diniz"
-          className="mb-6 h-24 w-24 rounded-full object-cover shadow-md"
+          className="mb-5 h-24 w-24 rounded-full object-cover shadow-md"
         />
 
-        {/* Title */}
-        <h1 className="mb-1 text-center font-cursive text-4xl text-primary">
-          {title?.trim() ? title : isDiscount ? "Voucher Desconto" : "Mês da Mulher"}
-        </h1>
+        {/* Title (optional) */}
+        {hasTitle && (
+          <h1 className="mb-2 text-center font-cursive text-3xl leading-tight text-primary">
+            {title}
+          </h1>
+        )}
+
+        {/* Free message */}
+        {hasMessage && (
+          <p className="whitespace-pre-line text-center font-serif text-[19px] leading-snug text-primary">
+            {message}
+          </p>
+        )}
+
+        {/* Highlight (cursive) */}
+        {hasHighlight && (
+          <p className="mt-2 whitespace-pre-line text-center font-cursive text-[26px] leading-tight text-primary">
+            {highlightMessage}
+          </p>
+        )}
 
         {/* Decorative line */}
         <div className="my-4 flex items-center gap-3">
@@ -50,26 +93,24 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           <div className="h-px w-12 bg-primary/30" />
         </div>
 
-        {/* Description */}
-        <p className="mb-6 text-center font-serif text-sm leading-relaxed text-foreground/80">
-          {isDiscount ? (
-            <>
-              Você ganhou{" "}
-              <span className="text-lg font-bold text-primary">R$ {discountAmount ?? 30},00</span>{" "}
-              de desconto no seu próximo procedimento.
-            </>
-          ) : (
-            <>
-              Este voucher dá direito a uma{" "}
-              <span className="font-semibold text-primary">{serviceName}</span>{" "}
-              com duração de 1h30 a 2h.
-            </>
-          )}
+        {/* Service description (free text) */}
+        <p className="whitespace-pre-line text-center text-sm leading-relaxed text-foreground/85">
+          {serviceText}
         </p>
 
+        {/* Code */}
+        <div className="mt-5 flex flex-col items-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            Código do voucher
+          </p>
+          <div className="mt-1.5 rounded-md border border-dashed border-primary/40 px-6 py-1.5">
+            <span className="font-serif text-xl font-bold tracking-wider text-primary">{code}</span>
+          </div>
+        </div>
+
         {/* Client name */}
-        <div className="mb-4 text-center">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Para</p>
+        <div className="mt-4 text-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Para</p>
           <p className="mt-1 font-serif text-xl font-semibold text-primary">{clientName}</p>
         </div>
 
@@ -110,16 +151,9 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           </a>
         </div>
 
-        {/* Spacer */}
-        <div className="flex-1" />
-
         {/* Footer */}
         <div className="w-full space-y-2 text-center">
           <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-            <span>
-              Código: <span className="font-mono font-bold text-primary">{code}</span>
-            </span>
-            <span className="h-3 w-px bg-primary/20" />
             <span>
               Válido até:{" "}
               <span className="font-semibold">
@@ -127,13 +161,14 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
               </span>
             </span>
           </div>
-          <p className="text-[10px] text-muted-foreground/70">Pessoal e intransferível</p>
-          <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="h-3 w-3" />
-            <span>Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP, 11440-002</span>
+          <p className="text-[10px] text-muted-foreground/70">
+            Esse voucher é pessoal e intransferível.
+          </p>
+          <div className="flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+            <MapPin className="h-3 w-3 shrink-0" />
+            <span>Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP</span>
           </div>
         </div>
-
       </div>
     );
   }
