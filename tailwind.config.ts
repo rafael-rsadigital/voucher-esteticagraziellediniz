@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        cursive: ["Great Vibes", "cursive"],
+        cursive: ["Dancing Script", "cursive"],
+        vibes: ["Great Vibes", "cursive"],
         serif: ["Playfair Display", "serif"],
         sans: ["Lato", "sans-serif"],
       },
