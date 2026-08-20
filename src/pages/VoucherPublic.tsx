@@ -19,6 +19,9 @@ interface Voucher {
   voucher_type: string;
   discount_amount: number | null;
   title: string | null;
+  message: string | null;
+  highlight_message: string | null;
+  service_description: string | null;
 }
 
 const VoucherPublic = () => {
