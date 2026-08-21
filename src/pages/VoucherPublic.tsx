@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import { Button } from "@/components/ui/button";
-import { Download, Image as ImageIcon } from "lucide-react";
+import { Download, Image as ImageIcon, Calendar } from "lucide-react";
 import VoucherCard from "@/components/VoucherCard";
 import { toast } from "sonner";
 
