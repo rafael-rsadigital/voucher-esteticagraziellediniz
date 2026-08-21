@@ -1,7 +1,19 @@
-import { forwardRef } from "react";
+import { forwardRef, Fragment, type ReactNode } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { MapPin, Link as LinkIcon } from "lucide-react";
+
+// Permite trechos em negrito com **texto**
+const renderRich = (text: string): ReactNode =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+      <strong key={i} className="font-bold">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      <Fragment key={i}>{part}</Fragment>
+    )
+  );
 
 interface VoucherCardProps {
   clientName: string;
@@ -67,22 +79,22 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
 
         {/* Title (optional) */}
         {hasTitle && (
-          <h1 className="mb-2 text-center font-cursive text-3xl leading-tight text-primary">
-            {title}
+          <h1 className="mb-2 text-center font-cursive text-[32px] font-semibold leading-tight text-primary">
+            {renderRich(title!)}
           </h1>
         )}
 
         {/* Free message */}
         {hasMessage && (
           <p className="whitespace-pre-line text-center font-serif text-[19px] leading-snug text-primary">
-            {message}
+            {renderRich(message!)}
           </p>
         )}
 
         {/* Highlight (cursive) */}
         {hasHighlight && (
-          <p className="mt-2 whitespace-pre-line text-center font-cursive text-[26px] leading-tight text-primary">
-            {highlightMessage}
+          <p className="mt-2 whitespace-pre-line text-center font-cursive text-[28px] font-medium leading-tight text-primary">
+            {renderRich(highlightMessage!)}
           </p>
         )}
 
@@ -95,7 +107,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
 
         {/* Service description (free text) */}
         <p className="whitespace-pre-line text-center text-sm leading-relaxed text-foreground/85">
-          {serviceText}
+          {renderRich(serviceText)}
         </p>
 
         {/* Code */}
