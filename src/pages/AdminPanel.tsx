@@ -258,7 +258,9 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Mensagem (texto livre)</Label>
+                  <Label htmlFor="message">
+                    Mensagem (texto livre) — use **texto** para negrito
+                  </Label>
                   <Textarea
                     id="message"
                     rows={3}
@@ -281,7 +283,9 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="highlight">Frase em destaque (cursiva)</Label>
+                  <Label htmlFor="highlight">
+                    Frase em destaque (cursiva) — **negrito** disponível
+                  </Label>
                   <Textarea
                     id="highlight"
                     rows={2}
@@ -304,7 +308,9 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="service-desc">Texto do serviço (texto livre)</Label>
+                  <Label htmlFor="service-desc">
+                    Texto do serviço (texto livre) — **negrito** disponível
+                  </Label>
                   <Textarea
                     id="service-desc"
                     rows={3}
