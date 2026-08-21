@@ -126,30 +126,27 @@ const VoucherPublic = () => {
     );
   }
 
+  const whatsappText =
+    voucher.voucher_type === "desconto"
+      ? `Oi! Eu recebi um voucher de desconto de R$${voucher.discount_amount ?? 30},00 e gostaria de agendar. O código do voucher é ${voucher.code}`
+      : `Oi! Eu recebi um voucher para realizar ${voucher.service_name} e gostaria de agendar. O código do voucher é ${voucher.code}`;
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4">
-      <VoucherCard
-        ref={cardRef}
-        clientName={voucher.client_name}
-        code={voucher.code}
-        expiresAt={voucher.expires_at}
-        serviceName={voucher.service_name}
-        voucherType={voucher.voucher_type}
-        discountAmount={voucher.discount_amount}
-        title={voucher.title}
-        message={voucher.message}
-        highlightMessage={voucher.highlight_message}
-        serviceDescription={voucher.service_description}
-      />
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Button onClick={handleSavePdf} disabled={saving} size="lg">
-          <Download className="mr-2 h-4 w-4" />
-          {saving ? "Salvando..." : "Salvar em PDF"}
-        </Button>
-        <Button onClick={handleSaveImage} disabled={savingImg} size="lg" variant="outline">
-          <ImageIcon className="mr-2 h-4 w-4" />
-          {savingImg ? "Salvando..." : "Salvar imagem"}
-        </Button>
+    <div className="relative flex min-h-screen flex-col items-center bg-muted/30 px-4 py-6 pb-32">
+      <div className="w-full max-w-[360px]">
+        <VoucherCard
+          ref={cardRef}
+          clientName={voucher.client_name}
+          code={voucher.code}
+          expiresAt={voucher.expires_at}
+          serviceName={voucher.service_name}
+          voucherType={voucher.voucher_type}
+          discountAmount={voucher.discount_amount}
+          title={voucher.title}
+          message={voucher.message}
+          highlightMessage={voucher.highlight_message}
+          serviceDescription={voucher.service_description}
+        />
       </div>
 
       <div className="mt-8 w-full max-w-[360px] overflow-hidden rounded-lg border border-primary/20 shadow-sm">
@@ -165,6 +162,29 @@ const VoucherPublic = () => {
       <p className="mt-2 max-w-[360px] text-center text-xs text-muted-foreground">
         Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP, 11440-002
       </p>
+
+      {/* Sticky action bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-primary/10 bg-background/95 p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm">
+        <div className="mx-auto flex max-w-[360px] items-center justify-center gap-2">
+          <Button onClick={handleSavePdf} disabled={saving} size="sm" className="flex-1">
+            <Download className="mr-1.5 h-4 w-4" />
+            {saving ? "Salvando..." : "PDF"}
+          </Button>
+          <a
+            href={`https://wa.me/5513991630136?text=${encodeURIComponent(whatsappText)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+          >
+            <Calendar className="h-4 w-4" />
+            Agendar
+          </a>
+          <Button onClick={handleSaveImage} disabled={savingImg} size="sm" variant="outline" className="flex-1">
+            <ImageIcon className="mr-1.5 h-4 w-4" />
+            {savingImg ? "Salvando..." : "Imagem"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
