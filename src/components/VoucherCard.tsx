@@ -1,7 +1,19 @@
-import { forwardRef } from "react";
+import { forwardRef, Fragment, type ReactNode } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { MapPin, Link as LinkIcon } from "lucide-react";
+
+// Permite trechos em negrito com **texto**
+const renderRich = (text: string): ReactNode =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+      <strong key={i} className="font-bold">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      <Fragment key={i}>{part}</Fragment>
+    )
+  );
 
 interface VoucherCardProps {
   clientName: string;
