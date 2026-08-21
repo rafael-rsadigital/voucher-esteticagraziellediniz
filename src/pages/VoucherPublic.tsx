@@ -132,7 +132,7 @@ const VoucherPublic = () => {
       : `Oi! Eu recebi um voucher para realizar ${voucher.service_name} e gostaria de agendar. O código do voucher é ${voucher.code}`;
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center bg-muted/30 px-4 py-6 pb-32">
+    <div className="relative flex min-h-screen flex-col items-center justify-start bg-muted/30 px-4 py-6 pb-36 lg:justify-center">
       <div className="w-full max-w-[360px]">
         <VoucherCard
           ref={cardRef}
@@ -149,7 +149,7 @@ const VoucherPublic = () => {
         />
       </div>
 
-      <div className="mt-8 w-full max-w-[360px] overflow-hidden rounded-lg border border-primary/20 shadow-sm">
+      <div className="mt-10 w-full max-w-[360px] overflow-hidden rounded-lg border border-primary/20 shadow-sm">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.910082057528!2d-46.23737162465684!3d-23.98249917851274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce010cfde03e69%3A0x21cbbc8570ea3184!2sGrazielle%20Diniz%20-%20Est%C3%A9tica%20e%20Depila%C3%A7%C3%A3o%20a%20Laser!5e1!3m2!1spt-BR!2sbr!4v1785867093060!5m2!1spt-BR!2sbr"
           title="Localização - Grazielle Diniz Estética, Guarujá - SP"
@@ -165,7 +165,7 @@ const VoucherPublic = () => {
 
       {/* Sticky action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-primary/10 bg-background/95 p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm">
-        <div className="mx-auto flex max-w-[360px] items-center justify-center gap-2">
+        <div className="mx-auto flex max-w-[360px] items-center justify-center gap-3">
           <Button onClick={handleSavePdf} disabled={saving} size="sm" className="flex-1">
             <Download className="mr-1.5 h-4 w-4" />
             {saving ? "Salvando..." : "PDF"}
@@ -174,7 +174,7 @@ const VoucherPublic = () => {
             href={`https://wa.me/5513991630136?text=${encodeURIComponent(whatsappText)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
           >
             <Calendar className="h-4 w-4" />
             Agendar
