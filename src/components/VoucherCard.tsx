@@ -63,7 +63,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
     return (
       <div
         ref={ref}
-        className="relative mx-auto flex w-full max-w-[360px] flex-col items-center bg-background px-8 py-9"
+        className="relative mx-auto flex w-full max-w-[360px] flex-col items-center bg-background px-8 py-7"
         style={{ aspectRatio: "9/16" }}
       >
         {/* Elegant border */}
@@ -74,32 +74,32 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         <img
           src="/logo-grazielle.jpg"
           alt="Estética Grazielle Diniz"
-          className="mb-5 h-24 w-24 rounded-full object-cover shadow-md"
+          className="mb-4 h-20 w-20 rounded-full object-cover shadow-md"
         />
 
         {/* Title (optional) */}
         {hasTitle && (
-          <h1 className="mb-2 text-center font-cursive text-[32px] font-semibold leading-tight text-primary">
+          <h1 className="mb-2 text-center font-cursive text-[28px] font-semibold leading-tight text-primary">
             {renderRich(title!)}
           </h1>
         )}
 
         {/* Free message */}
         {hasMessage && (
-          <p className="whitespace-pre-line text-center font-serif text-[19px] leading-snug text-primary">
+          <p className="whitespace-pre-line text-center font-serif text-[17px] leading-snug text-primary">
             {renderRich(message!)}
           </p>
         )}
 
         {/* Highlight (cursive) */}
         {hasHighlight && (
-          <p className="mt-2 whitespace-pre-line text-center font-cursive text-[28px] font-medium leading-tight text-primary">
+          <p className="mt-2 whitespace-pre-line text-center font-cursive text-[24px] font-medium leading-tight text-primary">
             {renderRich(highlightMessage!)}
           </p>
         )}
 
         {/* Decorative line */}
-        <div className="my-4 flex items-center gap-3">
+        <div className="my-3 flex items-center gap-3">
           <div className="h-px w-12 bg-primary/30" />
           <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
           <div className="h-px w-12 bg-primary/30" />
@@ -111,7 +111,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         </p>
 
         {/* Code */}
-        <div className="mt-5 flex flex-col items-center">
+        <div className="mt-4 flex flex-col items-center">
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             Código do voucher
           </p>
@@ -121,13 +121,13 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         </div>
 
         {/* Client name */}
-        <div className="mt-4 text-center">
+        <div className="mt-3 text-center">
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Para</p>
           <p className="mt-1 font-serif text-xl font-semibold text-primary">{clientName}</p>
         </div>
 
         {/* Spacer */}
-        <div className="flex-1" />
+        <div className="min-h-3 flex-1" />
 
         {/* Motivational */}
         <p className="mb-2 text-center font-serif text-xs italic text-muted-foreground">
@@ -148,7 +148,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         </a>
 
         {/* Conhecer Grazielle Diniz */}
-        <div className="mb-4 flex flex-col items-center">
+        <div className="mb-5 flex flex-col items-center">
           <p className="mb-1 text-[10px] uppercase tracking-widest text-muted-foreground">
             Conhecer Grazielle Diniz
           </p>
@@ -156,7 +156,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
             href="https://esteticagraziellediniz.com/bio/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 px-5 py-1.5 font-serif text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-background px-5 py-1.5 font-serif text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
           >
             <LinkIcon className="h-3 w-3" />
             esteticagraziellediniz.com/bio
