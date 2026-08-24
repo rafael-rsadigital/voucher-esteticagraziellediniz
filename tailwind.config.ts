@@ -15,11 +15,17 @@ export default {
     extend: {
       fontFamily: {
         cursive: ["Dancing Script", "cursive"],
+        allura: ["Allura", "cursive"],
         vibes: ["Great Vibes", "cursive"],
         serif: ["Playfair Display", "serif"],
+        body: ["Montserrat", "sans-serif"],
         sans: ["Lato", "sans-serif"],
       },
       colors: {
+        vink: "hsl(var(--v-ink))",
+        vbody: "hsl(var(--v-body))",
+        vsoft: "hsl(var(--v-soft))",
+        vline: "hsl(var(--v-line))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
