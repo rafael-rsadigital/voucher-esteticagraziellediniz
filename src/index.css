@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -35,6 +35,12 @@
     --ring: 160 63% 26%;
 
     --radius: 0.5rem;
+
+    /* Voucher palette (modelo oficial) */
+    --v-ink: 158 41% 20%;      /* #1E4637 */
+    --v-body: 156 25% 24%;     /* #2E4F43 */
+    --v-soft: 148 15% 49%;     /* #6A8F7D */
+    --v-line: 158 46% 89%;     /* #DCEEE6 */
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
