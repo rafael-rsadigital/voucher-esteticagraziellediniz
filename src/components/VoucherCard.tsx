@@ -1,4 +1,4 @@
-import { forwardRef, Fragment, type ReactNode } from "react";
+import { forwardRef, Fragment, type ReactNode, useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { MapPin, Link as LinkIcon } from "lucide-react";
@@ -20,25 +20,63 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>((props, ref) =>
   const isDiscount = voucherType === "desconto";
   const whatsappText = isDiscount ? `Oi! Eu recebi um voucher de desconto de R$${discountAmount ?? 30},00 e gostaria de agendar. O código do voucher é ${code}` : `Oi! Eu recebi um voucher para realizar ${serviceName} e gostaria de agendar. O código do voucher é ${code}`;
   const hasTitle = !!title?.trim(); const hasMessage = !!message?.trim(); const hasHighlight = !!highlightMessage?.trim();
+  const defaultMessage = isDiscount ? "Este é um pequeno gesto para você." : "Filha, esse é um pequeno gesto para lembrar o quanto você é especial para mim.";
+  const typedMessage = message?.trim() || defaultMessage;
+  const defaultHighlight = isDiscount ? "Aproveite esse momento, você merece! ❤️" : "Aproveite esse momento, você merece! ❤️";
+  const typedHighlight = highlightMessage?.trim() || defaultHighlight;
   const defaultServiceText = isDiscount ? `Esse voucher dá direito a **R$ ${discountAmount ?? 30},00** de desconto no seu próximo procedimento.` : `Esse voucher dá direito a **1 sessão** de uma **${serviceName}**, com duração de 1h30 a 2h.`;
   const serviceText = serviceDescription?.trim() || defaultServiceText;
 
+  const [typedText, setTypedText] = useState("");
+  const [showHighlight, setShowHighlight] = useState(false);
+  const [showRest, setShowRest] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setTypedText(""); setShowHighlight(false); setShowRest(false);
+    let index = 0;
+    const typeNext = () => {
+      if (cancelled) return;
+      if (index < typedMessage.length) {
+        index += 1;
+        setTypedText(typedMessage.slice(0, index));
+        const previous = typedMessage[index - 1];
+        const delay = previous === "," ? 430 : previous === "." ? 180 : 42;
+        window.setTimeout(typeNext, delay);
+      } else {
+        window.setTimeout(() => { if (!cancelled) setShowHighlight(true); }, 450);
+        window.setTimeout(() => { if (!cancelled) setShowRest(true); }, 1100);
+      }
+    };
+    const start = window.setTimeout(typeNext, 500);
+    return () => { cancelled = true; window.clearTimeout(start); };
+  }, [typedMessage]);
+
   return <div ref={ref} className="relative mx-auto flex w-full max-w-[360px] flex-col items-center bg-white px-7 py-6" style={{ aspectRatio: "9/16" }}>
     <div className="pointer-events-none absolute inset-[10px] rounded-[14px] border border-vink/45" /><div className="pointer-events-none absolute inset-[15px] rounded-[11px] border border-vink/25" />
-    <img src="/logo-grazielle.jpg" alt="Grazielle Diniz - Estética Avançada & Laser" className="mt-1 h-[92px] w-[92px] rounded-full object-cover" />
-    {hasTitle && <h1 className="mt-3 text-center font-allura text-[30px] leading-tight text-vink">{renderRich(title!)}</h1>}
-    {hasMessage && <p className="mt-5 whitespace-pre-line text-center font-sans text-[22px] font-normal leading-[1.22] tracking-[0.005em] text-vink">{renderRich(message!)}</p>}
-    {hasHighlight && <p className="mt-3 whitespace-pre-line text-center font-cursive text-[27px] font-medium leading-[1.15] text-vink">{renderRich(highlightMessage!, "text-vink")}</p>}
-    <div className="my-4 flex items-center gap-2.5"><div className="h-px w-14 bg-vink/50" /><div className="h-[5px] w-[5px] rounded-full bg-vink/70" /><div className="h-px w-14 bg-vink/50" /></div>
-    <p className="whitespace-pre-line text-center font-body text-[12.5px] font-normal leading-[1.5] text-vbody">{renderRich(serviceText)}</p>
-    <p className="mt-4 font-body text-[10px] font-medium uppercase tracking-[0.22em] text-vsoft">Código do voucher</p><div className="mt-1.5 rounded-lg border border-dotted border-vink/60 px-8 py-1"><span className="font-serif text-[22px] font-bold tracking-[0.14em] text-vink">{code}</span></div>
-    <p className="mt-3 font-body text-[10px] font-medium uppercase tracking-[0.22em] text-vsoft">Para</p><p className="mt-0.5 font-serif text-[27px] font-bold leading-tight text-vink">{clientName}</p>
-    <p className="mt-2 text-center font-serif text-[12.5px] italic text-vbody">{isDiscount ? "\u201cCuide-se, você merece.\u201d" : "\u201cUm momento de renovação, cuidado e autoestima.\u201d"}</p>
-    <div className="mt-3 flex w-full items-center justify-center gap-3"><div className="h-px w-16 bg-vink/40" /><Lotus className="h-4 w-4 text-vink" /><div className="h-px w-16 bg-vink/40" /></div>
-    <p className="mt-2 text-center font-body text-[11px] text-vbody">Esse voucher é pessoal e intransferível.</p><div className="min-h-2 flex-1" />
-    <a href={`https://wa.me/5513991630136?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-vink px-8 py-2 font-body text-[13px] font-semibold text-background shadow-sm transition-opacity hover:opacity-90"><span className="absolute inset-0 -translate-x-full animate-[shine_3s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent" />Agendar</a>
-    <p className="mt-3 font-body text-[9px] font-medium uppercase tracking-[0.2em] text-vsoft">Conhecer Grazielle Diniz</p><a href="https://esteticagraziellediniz.com/bio/" target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1.5 rounded-md border border-vink/40 px-4 py-1 font-body text-[10.5px] font-medium text-vink transition-colors hover:bg-vline/60"><LinkIcon className="h-3 w-3" />esteticagraziellediniz.com/bio</a>
-    <div className="mt-3 w-full space-y-1 text-center font-body text-[10px] text-vbody"><p>Válido até:{" "}<span className="font-semibold text-vink">{format(new Date(expiresAt), "dd/MM/yyyy", { locale: ptBR })}</span></p><div className="flex items-center justify-center gap-1"><MapPin className="h-3 w-3 shrink-0 text-vsoft" /><span>Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP</span></div></div>
+    <div className={`w-full transition-opacity duration-700 ${showRest ? "opacity-100" : "opacity-0"}`}>
+      <img src="/logo-grazielle.jpg" alt="Grazielle Diniz - Estética Avançada & Laser" className="mx-auto mt-1 h-[92px] w-[92px] rounded-full object-cover" />
+      {hasTitle && <h1 className="mt-3 text-center font-allura text-[30px] leading-tight text-vink">{renderRich(title!)}</h1>}
+    </div>
+
+    <p className="mt-5 min-h-[54px] whitespace-pre-line text-center font-sans text-[22px] font-normal leading-[1.22] tracking-[0.005em] text-vink" aria-label={typedMessage}>{typedText}</p>
+
+    <p className={`mt-3 min-h-[31px] whitespace-pre-line text-center font-cursive text-[27px] font-medium leading-[1.15] text-vink transition-all duration-700 ${showHighlight ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+      {showHighlight ? renderRich(typedHighlight, "text-vink") : "\u00a0"}
+    </p>
+
+    <div className={`w-full transition-all duration-700 ${showRest ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}>
+      <div className="my-4 flex items-center justify-center gap-2.5"><div className="h-px w-14 bg-vink/50" /><div className="h-[5px] w-[5px] rounded-full bg-vink/70" /><div className="h-px w-14 bg-vink/50" /></div>
+      <p className="whitespace-pre-line text-center font-body text-[12.5px] font-normal leading-[1.5] text-vbody">{renderRich(serviceText)}</p>
+      <p className="mt-4 font-body text-[10px] font-medium uppercase tracking-[0.22em] text-vsoft">Código do voucher</p><div className="mt-1.5 rounded-lg border border-dotted border-vink/60 px-8 py-1"><span className="font-serif text-[22px] font-bold tracking-[0.14em] text-vink">{code}</span></div>
+      <p className="mt-3 font-body text-[10px] font-medium uppercase tracking-[0.22em] text-vsoft">Para</p><p className="mt-0.5 font-serif text-[27px] font-bold leading-tight text-vink">{clientName}</p>
+      <p className="mt-2 text-center font-serif text-[12.5px] italic text-vbody">{isDiscount ? "\u201cCuide-se, você merece.\u201d" : "\u201cUm momento de renovação, cuidado e autoestima.\u201d"}</p>
+      <div className="mt-3 flex w-full items-center justify-center gap-3"><div className="h-px w-16 bg-vink/40" /><Lotus className="h-4 w-4 text-vink" /><div className="h-px w-16 bg-vink/40" /></div>
+      <p className="mt-2 text-center font-body text-[11px] text-vbody">Esse voucher é pessoal e intransferível.</p><div className="min-h-2 flex-1" />
+      <a href={`https://wa.me/5513991630136?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-vink px-8 py-2 font-body text-[13px] font-semibold text-background shadow-sm transition-opacity hover:opacity-90"><span className="absolute inset-0 -translate-x-full animate-[shine_3s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent" />Agendar</a>
+      <p className="mt-3 font-body text-[9px] font-medium uppercase tracking-[0.2em] text-vsoft">Conhecer Grazielle Diniz</p><a href="https://esteticagraziellediniz.com/bio/" target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1.5 rounded-md border border-vink/40 px-4 py-1 font-body text-[10.5px] font-medium text-vink transition-colors hover:bg-vline/60"><LinkIcon className="h-3 w-3" />esteticagraziellediniz.com/bio</a>
+      <div className="mt-3 w-full space-y-1 text-center font-body text-[10px] text-vbody"><p>Válido até:{" "}<span className="font-semibold text-vink">{format(new Date(expiresAt), "dd/MM/yyyy", { locale: ptBR })}</span></p><div className="flex items-center justify-center gap-1"><MapPin className="h-3 w-3 shrink-0 text-vsoft" /><span>Av. Dom Pedro I, 1785 - Sl 406 - Enseada, Guarujá - SP</span></div></div>
+    </div>
   </div>;
 });
 VoucherCard.displayName = "VoucherCard";
