@@ -5,7 +5,7 @@ import { MapPin, Link as LinkIcon } from "lucide-react";
 
 const renderRich = (text: string, boldClass = "font-semibold text-vink"): ReactNode =>
   text.split(/(\*\*[^*]+\*\*|❤️)/g).map((part, i) => {
-    if (part === "❤️") return <span key={i} aria-label="coração" className="ml-1 inline-block font-serif text-[0.9em] italic leading-none text-[#b91c1c] [-webkit-text-stroke:0.55px_#111827]">♥</span>;
+    if (part === "❤️") return <span key={i} aria-label="coração" className="ml-1 inline-block font-serif text-[0.9em] not-italic leading-none text-[#b91c1c] [-webkit-text-stroke:0.55px_#111827]">♥</span>;
     return part.startsWith("**") && part.endsWith("**") && part.length > 4 ? <strong key={i} className={boldClass}>{part.slice(2, -2)}</strong> : <Fragment key={i}>{part}</Fragment>;
   });
 
