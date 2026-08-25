@@ -89,9 +89,9 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
           </h1>
         )}
 
-        {/* Mensagem principal — Playfair Display Regular */}
+        {/* Mensagem principal — Dancing Script */}
         {hasMessage && (
-          <p className="mt-5 whitespace-pre-line text-center font-serif text-[21px] font-normal leading-[1.22] tracking-[-0.01em] text-vink">
+          <p className="mt-5 whitespace-pre-line text-center font-cursive text-[27px] font-medium leading-[1.22] tracking-[-0.01em] text-vink">
             {renderRich(message!)}
           </p>
         )}
@@ -129,7 +129,7 @@ const VoucherCard = forwardRef<HTMLDivElement, VoucherCardProps>(
         </p>
         <p className="mt-0.5 font-serif text-[27px] font-bold leading-tight text-vink">{clientName}</p>
 
-        {/* Frase em itálico */}
+        {/* Frase em itálico — Playfair Display */}
         <p className="mt-2 text-center font-serif text-[12.5px] italic text-vbody">
           {isDiscount
             ? "\u201cCuide-se, você merece.\u201d"
