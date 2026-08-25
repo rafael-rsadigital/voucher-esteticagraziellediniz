@@ -4,12 +4,13 @@ import { ptBR } from "date-fns/locale";
 import { MapPin, Link as LinkIcon } from "lucide-react";
 
 const renderRich = (text: string, boldClass = "font-semibold text-vink"): ReactNode =>
-  text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? <strong key={i} className={boldClass}>{part.slice(2, -2)}</strong> : <Fragment key={i}>{part}</Fragment>
-  );
+  text.split(/(\*\*[^*]+\*\*|❤️)/g).map((part, i) => {
+    if (part === "❤️") return <span key={i} aria-label="coração" className="ml-1 inline-block font-serif text-[0.9em] italic leading-none text-[#b91c1c] [-webkit-text-stroke:0.55px_#111827]">♥</span>;
+    return part.startsWith("**") && part.endsWith("**") && part.length > 4 ? <strong key={i} className={boldClass}>{part.slice(2, -2)}</strong> : <Fragment key={i}>{part}</Fragment>;
+  });
 
 const Lotus = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true"><path d="M12 3.2c1.5 1.7 2.3 3.5 2.3 5.4 0 1.4-.4 2.7-1.2 4 .1-2.4-.3-4.5-1.1-6.2-.8 1.7-1.2 3.8-1.1 6.2-.8-1.3-1.2-2.6-1.2-4 0-1.9.8-3.7 2.3-5.4Zm-6.8 4c1.9.4 3.4 1.3 4.5 2.6.8 1 1.3 2.1 1.5 3.4-1.4-1.5-3-2.5-4.7-3 .9 1.4 2 2.6 3.3 3.5-1.4.1-2.7-.2-3.9-.9C4.6 12 3.8 10.2 3.4 8c.6-.4 1.2-.6 1.8-.8Zm13.6 0c.6.2 1.2.4 1.8.8-.4 2.2-1.2 4-2.5 4.8-1.2.7-2.5 1-3.9.9 1.3-.9 2.4-2.1 3.3-3.5-1.7.5-3.3 1.5-4.7 3 .2-1.3.7-2.4 1.5-3.4 1.1-1.3 2.6-2.2 4.5-2.6ZM12 14.6c2.4 0 4.6.8 6.4 2.2-1.8 2.1-4 3.2-6.4 3.2s-4.6-1.1-6.4-3.2c1.8-1.4 4-2.2 6.4-2.2Z" /></svg>
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true"><path d="M12 3.2c1.5 1.7 2.3 3.5 2.3 5.4 0 1.4-.4 2.7-1.2 4 .1-2.4-.3-4.5-1.1-6.2-.8 1.7-1.2 3.8-1.1 6.2-.8-1.3-1.2-2.6-1.2-4 0-1.9.8-3.7 2.3-5.4Zm-6.8 4c1.9.4 3.4 1.3 4.5 2.6.8 1 1.3 2.1 1.5 3.4-1.4-1.5-3-2.5-4.7-3 .9 1.4 2 2.6 3.3 3.5-1.4.1-2.7-.2-3.9-.9C4.6 12 3.8 10.2 3.4 8c.6-.4 1.2-.6 1.8-.8Zm13.6 0c.6.2 1.2.4 1.8.8-.4 2.2-1.2 4-2.5 4.8-1.2.7-2.5 1-3.9.9 1.3-.9 2.4-2.1 3.3-3.5-1.7.5-3.3 1.5-4.7 3 .2-1.3.7-2.4 1.5-3.4ZM12 14.6c2.4 0 4.6.8 6.4 2.2-1.8 2.1-4 3.2-6.4 3.2s-4.6-1.1-6.4-3.2c1.8-1.4 4-2.2 6.4-2.2Z" /></svg>
 );
 
 interface VoucherCardProps { clientName: string; code: string; expiresAt: string; serviceName?: string; voucherType?: string; discountAmount?: number | null; title?: string | null; message?: string | null; highlightMessage?: string | null; serviceDescription?: string | null; }
